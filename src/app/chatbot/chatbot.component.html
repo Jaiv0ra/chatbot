@@ -40,26 +40,73 @@
     </div>
     <div
       class="card-body border-0 bg-white card-body-custom d-flex flex-column p-0"
+      style="
+        height: 80%;
+        border-bottom-right-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+      "
     >
       <div
         class="custom-gradient-bg d-flex flex-column h-100 pb-0 pt-1 px-1 border-top justify-content-between"
       >
-        <div></div>
+        <div class="d-flex flex-column w-100 messages-container">
+          <div
+            *ngFor="let chat of chatHistoryData"
+            class="d-flex flex-column w-100"
+            style="max-width: 100%"
+          >
+            <div
+              *ngIf="chat.user == 'bot'"
+              class="d-flex justify-content-start mb-1 w-100"
+              style="max-width: 100%"
+            >
+              <ng-container *ngIf="chat.type == 'text'">
+                <div class="message-box bot-message">
+                  {{ chat.message }}
+                </div>
+              </ng-container>
+            </div>
+            <div
+              *ngIf="chat.user == 'user'"
+              class="d-flex justify-content-end mb-1"
+              style="max-width: 100%"
+            >
+              <div class="message-box user-message">
+                {{ chat.message }}
+              </div>
+            </div>
+          </div>
+          <div *ngIf="isTyping" class="d-flex justify-content-start mb-2">
+            <div class="message-box bot-message">
+              <div class="pulse-loader m-1">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
         <form *ngIf="form" [formGroup]="form">
           <div class="d-flex align-items-center mb-3">
             <div class="input-container d-flex align-items-center w-100">
-                <input
-                  type="text"
-                  formControlName="chat"
-                  class="form-control me-0 border-end-0 rounded-end-0"
-                  placeholder="Enter here"
-                  style="padding: 0.495rem 0.75rem"
-                  (keydown.enter)="submit()"
-                />
-                <div class="focus-target border border-start-0 rounded-end-3 px-3 py-2">
-                  <i class="fas fa-paper-plane text-primary" (click)="submit()" style="cursor: pointer"></i>
-                </div>
+              <input
+                type="text"
+                formControlName="chat"
+                class="form-control me-0 border-end-0 rounded-end-0"
+                placeholder="Enter here"
+                style="padding: 0.495rem 0.75rem"
+                (keydown.enter)="submit()"
+              />
+              <div
+                class="focus-target border border-start-0 rounded-end-3 px-3 py-2"
+              >
+                <i
+                  class="fas fa-paper-plane text-primary"
+                  (click)="submit()"
+                  style="cursor: pointer"
+                ></i>
               </div>
+            </div>
           </div>
         </form>
       </div>

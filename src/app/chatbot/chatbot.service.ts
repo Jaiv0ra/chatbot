@@ -2,31 +2,36 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { environment } from '../../environment/environment';
+import { Observable } from 'rxjs';
+import { HFResponse } from './chatbot.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChatbotService {
+  constructor(private builder: FormBuilder, private http: HttpClient) {}
 
-  constructor(private builder: FormBuilder,
-    private http: HttpClient) { }
-
-  buildForm(){
+  buildForm() {
     return this.builder.group({
-      'chat': ['']
-    })
+      chat: [''],
+    });
   }
 
-  ask(question: string) {
+  ask(question: string):Observable<HFResponse[]> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${environment.huggingFaceApiKey}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${environment.huggingFaceApiKey}`,
+      'Content-Type': 'application/json',
     });
-
-    return this.http.post(
+    return this.http.post<HFResponse[]>(
       'https://api-inference.huggingface.co/models/gpt2',
       { inputs: question },
       { headers }
     );
   }
+}
+
+export class ChatbotTableViewData {
+  constructor() {}
+  columns: string[] = [];
+  values: string[][] = [];
 }
