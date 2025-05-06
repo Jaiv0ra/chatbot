@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
 import { HFResponse } from './chatbot.type';
@@ -17,7 +17,18 @@ export class ChatbotService {
     });
   }
 
-  ask(question: string):Observable<HFResponse[]> {
+  buildCreateForm() {
+    return this.builder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      contentType: ['application/json', Validators.required],
+      apiUrl: ['application/json', Validators.required],
+      authorization: ['application/json', Validators.required],
+      isFree: [false],
+    });
+  }
+
+  ask(question: string): Observable<HFResponse[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${environment.huggingFaceApiKey}`,
       'Content-Type': 'application/json',

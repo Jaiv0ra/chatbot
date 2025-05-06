@@ -4,6 +4,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ChatbotService, ChatbotTableViewData } from './chatbot.service';
 import { HttpErrorResponse } from '@angular/common/http';
+// import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 
 @Component({
   selector: 'app-chatbot',
